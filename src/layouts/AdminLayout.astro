@@ -1,0 +1,10 @@
+---
+//src/layouts/AdminLayout.astro
+// Importamos el layout base para tener la estructura HTML principal
+import Layout from './Layout.astro';
+---
+<Layout>
+    <slot />
+</Layout>
+
+<script is:inline src="../scripts/auth-guard.ts"></script>
