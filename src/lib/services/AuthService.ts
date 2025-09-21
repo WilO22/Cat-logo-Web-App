@@ -1,30 +1,49 @@
 // src/lib/services/AuthService.ts
 
-import type { UserCredential } from 'firebase/auth';
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-import { auth } from '../firebase/config'; // ¡Importamos nuestro "centro de control"!
-import type { IAuthService } from '../../types'; // ¡Importamos nuestro "contrato"!
+import { type UserCredential, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut} from 'firebase/auth';
+import { auth } from '../firebase/config';
+import type { IAuthService } from '../../types';
 
-// Esta es nuestra clase. Fíjate cómo "implementa" el contrato IAuthService.
 export class AuthService implements IAuthService {
 
-  // El constructor es una función especial que se ejecuta cuando creamos un nuevo servicio.
-  constructor() {
-    // Por ahora no necesitamos nada aquí.
-  }
+  constructor() {}
 
-  // Dejamos los métodos listos pero vacíos. Los rellenaremos en el siguiente paso.
   async signInWithEmail(email: string, password: string): Promise<UserCredential | null> {
-    // Lógica para iniciar sesión con correo
-    return null; // Temporal
+    try {
+      // Usamos la función del SDK de Firebase para iniciar sesión.
+      // Le pasamos la configuración de 'auth', el email y la contraseña.
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Usuario autenticado:', userCredential.user.email);
+      return userCredential;
+    } catch (error) {
+      // Si Firebase nos devuelve un error (ej: contraseña incorrecta), lo capturamos.
+      console.error("Error al iniciar sesión con email:", error);
+      // Devolvemos null para indicar que el inicio de sesión falló.
+      return null;
+    }
   }
 
   async signInWithGoogle(): Promise<UserCredential | null> {
-    // Lógica para iniciar sesión con Google
-    return null; // Temporal
+    // Creamos un "proveedor" de autenticación de Google.
+    const provider = new GoogleAuthProvider();
+    try {
+      // Usamos otra función del SDK que abre una ventana emergente (popup) para el login de Google.
+      const result = await signInWithPopup(auth, provider);
+      console.log('Usuario autenticado con Google:', result.user.email);
+      return result;
+    } catch (error) {
+      console.error("Error al iniciar sesión con Google:", error);
+      return null;
+    }
   }
 
   async signOut(): Promise<void> {
-    // Lógica para cerrar sesión
+    try {
+      // La función signOut del SDK se encarga de cerrar la sesión del usuario.
+      await signOut(auth);
+      console.log('Sesión cerrada exitosamente.');
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   }
 }
