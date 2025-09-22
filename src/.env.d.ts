@@ -13,6 +13,11 @@ interface ImportMetaEnv {
   readonly PUBLIC_FIREBASE_STORAGE_BUCKET: string;
   readonly PUBLIC_FIREBASE_MESSAGING_SENDER_ID: string;
   readonly PUBLIC_FIREBASE_APP_ID: string;
+
+  // variables solo para el servidor
+  readonly FIREBASE_PROJECT_ID: string;
+  readonly FIREBASE_CLIENT_EMAIL: string;
+  readonly FIREBASE_PRIVATE_KEY: string;
 }
 
 // Extiende la interfaz global `ImportMeta` que representa al objeto `import.meta`.
