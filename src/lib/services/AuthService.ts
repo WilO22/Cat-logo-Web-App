@@ -1,7 +1,7 @@
 // src/lib/services/AuthService.ts
 
 import { type UserCredential, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut} from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { auth } from '../firebase/client';
 import type { IAuthService } from '../../types';
 
 export class AuthService implements IAuthService {
